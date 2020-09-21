@@ -65,15 +65,18 @@ def listen(text, default='', timeout=3):
 			except Exception:
 				return inp(text, default, timeout)
 
-text_to_speech = input("Text to speech fast or slow, default fast\n")
-def say(text): 
-	while pygame.mixer.music.get_busy() and text_to_speech == 'slow':
-		pass
-	if not os.path.exists(sound_folder+text+".mp3"):
-		v =gTTS(text=text,lang="en") 
-		v.save(sound_folder+text+".mp3")
-	pygame.mixer.music.load(sound_folder+text+".mp3")
-	pygame.mixer.music.play()	
+text_to_speech_on = input("Text to speech on or off, default on\n")
+if text_to_speech_on != "off":
+	text_to_speech = input("Text to speech fast or slow, default fast\n")
+def say(text):
+	if text_to_speech_on != "off":
+		while pygame.mixer.music.get_busy() and text_to_speech == 'slow':
+			pass
+		if not os.path.exists(sound_folder+text+".mp3"):
+			v =gTTS(text=text,lang="en") 
+			v.save(sound_folder+text+".mp3")
+		pygame.mixer.music.load(sound_folder+text+".mp3")
+		pygame.mixer.music.play()	
 	
 while True:
 	say("test or new entry")
@@ -83,6 +86,8 @@ while True:
 	if reply == 'n':
 		original_size = df.shape[0]
 		word, meaning = input("Enter word meaning \n").split(",")
+		print ("Meaning in the dictionary is:")
+		print (pyd().meaning(word))
 		df2 = pd.DataFrame([[word, meaning, "NO"]], columns=["Word","Meaning","Marked"])
 		df = df.append(df2, ignore_index=True)
 		df = df.drop_duplicates(subset='Word', keep='last')
