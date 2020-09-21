@@ -37,9 +37,18 @@ else:
 	for index in range(0, df.shape[0]):
 		if df.iloc[index,2] == 'NO':
 			words = words + 1
+			
+remove_incorrect = input("Remove the incorrect words using dictionary yes or no, default no \n")
+if remove_incorrect == "yes":
+	for index in range(0, df.shape[0]):
+		if pyd().meaning(df.iloc[index, 0]) == None:
+			if input("remove word %s?\n" %  df.iloc[index, 0]) == 'y':
+				if df.iloc[index,2] == 'NO':
+					words = words - 1
+				df = df.drop(index)
+				df.to_excel(fname)
 
 df.to_excel(fname)
-
 input_timeout = input("input timeout yes or no, default no\n")
 def inp(text, default, timeout=3):
 	try:
