@@ -80,9 +80,9 @@ def say(text):
 	
 while True:
 	say("test or new entry")
+	df.to_excel(fname)
 	print("Words to ask = %d" % words)
 	reply = listen("Test -> t or new entry -> n \n", 't')
-	df.to_excel(fname) 
 	if reply == 'n':
 		original_size = df.shape[0]
 		word, meaning = input("Enter word meaning \n").split(",")
@@ -103,7 +103,7 @@ while True:
 			if df.iloc[index, 2] == 'NO':
 				break
 		say("word is : %s\n"% df.iloc[index, 0])
-		meaning = listen("Enter the meaning for the word: %s\n"% df.iloc[index, 0], '', 8)
+		meaning = listen("Enter the meaning for the word: %s\n"% df.iloc[index, 0], '', 5)
 		if inp("Should I give the answer? \n", 'y') == 'y':
 			say("Correct meaning is %s \n" % df.iloc[index, 1])
 			print ("Correct meaning is %s"% df.iloc[index, 1])
@@ -111,7 +111,7 @@ while True:
 			if inp("should I wait? \n",'') == 'y':
 				garb = input('waiting...\n')
 			say("Should I repeat this word?\n")
-			if input("Should I repeat this word yes or no, default no \n") != 'yes':
+			if inp("Should I repeat this word yes or no, default no \n",'') != 'yes':
 				words = words - 1
 				df.iloc[index, 2] = 'YES'
 			 
