@@ -96,7 +96,11 @@ while True:
 		original_size = df.shape[0]
 		word, meaning = input("Enter word meaning \n").split(",")
 		print ("Meaning in the dictionary is:")
-		print (pyd().meaning(word))
+		dict_meaning = pyd().meaning(word)
+		if dict_meaning == None:
+			if input("Is the spelling wrong y or n, default y\n") != 'n':
+				continue
+		print (dict_meaning)
 		df2 = pd.DataFrame([[word, meaning, "NO"]], columns=["Word","Meaning","Marked"])
 		df = df.append(df2, ignore_index=True)
 		df = df.drop_duplicates(subset='Word', keep='last')
